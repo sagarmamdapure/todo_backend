@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/todo/")
+//@RequestMapping("/todo/")
 public class ToDoController {
 
   final SubTaskService subTaskService;
