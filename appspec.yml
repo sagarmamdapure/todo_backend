@@ -1,0 +1,5 @@
+version: 0.0
+os: linux
+files:
+  - source: ./todospringboot-0.0.1-RELEASE.jar
+    destination: /tmp
