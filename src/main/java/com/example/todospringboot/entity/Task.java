@@ -43,7 +43,6 @@ public class Task {
           mappedBy = "task",
           cascade = CascadeType.ALL,
           fetch = FetchType.LAZY)
-//      fetch = FetchType.LAZY)
   private List<SubTask> subTasks;
 
   public Task() {

@@ -9,13 +9,13 @@ import com.example.todospringboot.exceptions.TaskNotFoundException;
 import com.example.todospringboot.service.SubTaskService;
 import com.example.todospringboot.service.TaskListService;
 import com.example.todospringboot.service.TaskService;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +50,7 @@ public class ToDoController {
   public ResponseEntity<TaskList> getTaskList(@PathVariable("id") int taskListId) {
     try {
       return new ResponseEntity<>(taskListService.getTaskList(taskListId), HttpStatus.OK);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskListNotFoundException(e.getLocalizedMessage());
     }
@@ -62,7 +62,7 @@ public class ToDoController {
     try {
       taskListService.deleteTaskList(taskListId);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskListNotFoundException(e.getLocalizedMessage());
     }
@@ -80,7 +80,7 @@ public class ToDoController {
   public void updateTaskList(@PathVariable("id") int taskListId, @RequestBody TaskList taskList) {
     try {
       taskListService.updateTaskList(taskListId, taskList);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskListNotFoundException(e.getLocalizedMessage());
     }
@@ -94,7 +94,7 @@ public class ToDoController {
   public void addTask(@PathVariable("id") int taskListId, @RequestBody Task task) {
     try {
       taskService.addTask(taskListId, task);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskListNotFoundException(e.getLocalizedMessage());
     }
@@ -106,7 +106,7 @@ public class ToDoController {
   public ResponseEntity<Task> getTask(@PathVariable("id") int taskId) {
     try {
       return new ResponseEntity<>(taskService.getTask(taskId), HttpStatus.OK);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskNotFoundException(e.getLocalizedMessage());
     }
@@ -125,7 +125,7 @@ public class ToDoController {
     try {
       taskService.deleteTask(taskId);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskNotFoundException(e.getLocalizedMessage());
     }
@@ -136,7 +136,7 @@ public class ToDoController {
   public void updateTask(@PathVariable("id") int taskId, @RequestBody Task task) {
     try {
       taskService.updateTask(taskId, task);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskNotFoundException(e.getLocalizedMessage());
     }
@@ -149,7 +149,7 @@ public class ToDoController {
   public void addSubTask(@PathVariable("id") int taskId, @RequestBody SubTask subTask) {
     try {
       subTaskService.addSubTask(taskId, subTask);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new TaskNotFoundException(e.getLocalizedMessage());
     }
@@ -168,7 +168,7 @@ public class ToDoController {
   public ResponseEntity<SubTask> getSubTask(@PathVariable("id") int subTaskId) {
     try {
       return new ResponseEntity<>(subTaskService.getSubTask(subTaskId), HttpStatus.OK);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new SubTaskNotFoundException(e.getLocalizedMessage());
     }
@@ -180,7 +180,7 @@ public class ToDoController {
     try {
       subTaskService.deleteSubTask(subTaskId);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new SubTaskNotFoundException(e.getLocalizedMessage());
     }
@@ -191,7 +191,7 @@ public class ToDoController {
   public void updateSubTask(@PathVariable("id") int subTaskId, @RequestBody SubTask subTask) {
     try {
       subTaskService.updateSubTask(subTaskId, subTask);
-    } catch (NoResultException e) {
+    } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
       throw new SubTaskNotFoundException(e.getLocalizedMessage());
     }
