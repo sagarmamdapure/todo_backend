@@ -1,0 +1,64 @@
+{
+  "properties": [
+    {
+      "name": "connection.pool.initialPoolSize",
+      "type": "java.lang.String",
+      "description": "Description for connection.pool.initialPoolSize."
+    },
+    {
+      "name": "jdbc.driver",
+      "type": "java.lang.String",
+      "description": "Description for jdbc.driver."
+    },
+    {
+      "name": "connection.pool.minPoolSize",
+      "type": "java.lang.String",
+      "description": "Description for connection.pool.minPoolSize."
+    },
+    {
+      "name": "connection.pool.maxPoolSize",
+      "type": "java.lang.String",
+      "description": "Description for connection.pool.maxPoolSize."
+    },
+    {
+      "name": "connection.pool.maxIdleTime",
+      "type": "java.lang.String",
+      "description": "Description for connection.pool.maxIdleTime."
+    },
+    {
+      "name": "hibernate.dialect",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.dialect."
+    },
+    {
+      "name": "hibernate.show_sql",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.show_sql."
+    },
+    {
+      "name": "hibernate.packagesToScan",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.packagesToScan."
+    },
+    {
+      "name": "todo.app.jwtSecret",
+      "type": "java.lang.String",
+      "description": "Description for todo.app.jwtSecret."
+    },
+    {
+      "name": "todo.app.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for todo.app.jwtExpirationMs."
+    },
+    {
+      "name": "aws.secret_name",
+      "type": "java.lang.String",
+      "description": "Description for aws.secret_name."
+    },
+    {
+      "name": "aws.region",
+      "type": "java.lang.String",
+      "description": "Description for aws.region."
+    }
+  ]
+}

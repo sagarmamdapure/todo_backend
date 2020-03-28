@@ -1,5 +1,6 @@
 package com.example.todospringboot.config;
 
+import com.example.todospringboot.utils.AwsRdsCredentialUtil;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -33,6 +35,9 @@ public class PersistenceConfig {
 
         // create connection pool
         ComboPooledDataSource myDataSource = new ComboPooledDataSource();
+        HashMap<String, String> awsSecret =
+                AwsRdsCredentialUtil.getSecret(
+                        env.getProperty("aws.secret_name"), env.getProperty("aws.region"));
 
         // set the jdbc driver
         try {
@@ -41,14 +46,18 @@ public class PersistenceConfig {
             throw new RuntimeException(exc);
         }
 
-        // for sanity's sake, let's log url and user ... just to make sure we are reading the data
-        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
-
         // set database connection props
-        myDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        myDataSource.setUser(env.getProperty("jdbc.user"));
-        myDataSource.setPassword(env.getProperty("jdbc.password"));
+        String jdbcUrl =
+                String.format(
+                        "jdbc:%s://%s:%s/%s",
+                        awsSecret.get("engine"),
+                        awsSecret.get("host"),
+                        awsSecret.get("port"),
+                        awsSecret.get("dbInstanceIdentifier"));
+        logger.info(String.format("JdbcUrl : %s", jdbcUrl));
+        myDataSource.setJdbcUrl(jdbcUrl);
+        myDataSource.setUser(awsSecret.get("username"));
+        myDataSource.setPassword(awsSecret.get("password"));
 
         // set connection pool props
         myDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
