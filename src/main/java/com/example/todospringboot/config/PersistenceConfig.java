@@ -22,98 +22,102 @@ import java.util.logging.Logger;
 @EnableTransactionManagement
 @PropertySource({"classpath:application.properties"})
 public class PersistenceConfig {
-    private final Environment env;
+  private final Environment env;
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+  private Logger logger = Logger.getLogger(getClass().getName());
 
-    public PersistenceConfig(Environment env) {
-        this.env = env;
+  public PersistenceConfig(Environment env) {
+    this.env = env;
+  }
+
+  @Bean
+  public DataSource myDataSource() {
+
+    // create connection pool
+    ComboPooledDataSource myDataSource = new ComboPooledDataSource();
+    HashMap<String, String> awsSecret =
+            AwsRdsCredentialUtil.getSecret(
+                    env.getProperty("aws.secret_name"), env.getProperty("aws.region"));
+
+    logger.info(
+            String.format(
+                    "aws.secret_name : %s, aws.region: %s",
+                    env.getProperty("aws.secret_name"), env.getProperty("aws.region")));
+    // set the jdbc driver
+    try {
+      myDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+    } catch (PropertyVetoException exc) {
+      throw new RuntimeException(exc);
     }
 
-    @Bean
-    public DataSource myDataSource() {
+    // set database connection props
+    String jdbcUrl =
+            String.format(
+                    "jdbc:%s://%s:%s/%s",
+                    awsSecret.get("engine"),
+                    awsSecret.get("host"),
+                    awsSecret.get("port"),
+                    awsSecret.get("dbInstanceIdentifier"));
+    logger.info(String.format("JdbcUrl : %s", jdbcUrl));
+    myDataSource.setJdbcUrl(jdbcUrl);
+    myDataSource.setUser(awsSecret.get("username"));
+    myDataSource.setPassword(awsSecret.get("password"));
 
-        // create connection pool
-        ComboPooledDataSource myDataSource = new ComboPooledDataSource();
-        HashMap<String, String> awsSecret =
-                AwsRdsCredentialUtil.getSecret(
-                        env.getProperty("aws.secret_name"), env.getProperty("aws.region"));
+    // set connection pool props
+    myDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
+    myDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+    myDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+    myDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
 
-        // set the jdbc driver
-        try {
-            myDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-        } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
-        }
+    return myDataSource;
+  }
 
-        // set database connection props
-        String jdbcUrl =
-                String.format(
-                        "jdbc:%s://%s:%s/%s",
-                        awsSecret.get("engine"),
-                        awsSecret.get("host"),
-                        awsSecret.get("port"),
-                        awsSecret.get("dbInstanceIdentifier"));
-        logger.info(String.format("JdbcUrl : %s", jdbcUrl));
-        myDataSource.setJdbcUrl(jdbcUrl);
-        myDataSource.setUser(awsSecret.get("username"));
-        myDataSource.setPassword(awsSecret.get("password"));
+  private Properties getHibernateProperties() {
 
-        // set connection pool props
-        myDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
-        myDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
-        myDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
-        myDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+    // set hibernate properties
+    Properties props = new Properties();
 
-        return myDataSource;
-    }
+    props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+    props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
 
-    private Properties getHibernateProperties() {
+    return props;
+  }
 
-        // set hibernate properties
-        Properties props = new Properties();
+  // need a helper method
+  // read environment property and convert to int
 
-        props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+  private int getIntProperty(String propName) {
 
-        return props;
-    }
+    String propVal = env.getProperty(propName);
 
-    // need a helper method
-    // read environment property and convert to int
+    // now convert to int
+    assert propVal != null;
 
-    private int getIntProperty(String propName) {
+    return Integer.parseInt(propVal);
+  }
 
-        String propVal = env.getProperty(propName);
+  @Bean
+  public LocalSessionFactoryBean sessionFactory() {
 
-        // now convert to int
-        assert propVal != null;
+    // create session factorys
+    LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 
-        return Integer.parseInt(propVal);
-    }
+    // set the properties
+    sessionFactory.setDataSource(myDataSource());
+    sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
+    sessionFactory.setHibernateProperties(getHibernateProperties());
 
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    return sessionFactory;
+  }
 
-        // create session factorys
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+  @Bean
+  @Autowired
+  public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 
-        // set the properties
-        sessionFactory.setDataSource(myDataSource());
-        sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
-        sessionFactory.setHibernateProperties(getHibernateProperties());
+    // setup transaction manager based on session factory
+    HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+    transactionManager.setSessionFactory(sessionFactory);
 
-        return sessionFactory;
-    }
-
-    @Bean
-    @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-
-        // setup transaction manager based on session factory
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory);
-
-        return transactionManager;
-    }
+    return transactionManager;
+  }
 }
