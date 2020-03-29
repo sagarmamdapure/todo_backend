@@ -16,4 +16,5 @@ public interface TaskListService {
   void updateTaskList(int taskListId, TaskList taskList);
 
   void addTaskList(TaskList taskList);
+
 }

@@ -16,4 +16,6 @@ public interface TaskDao {
   void updateTask(int taskId, Task task);
 
   void addTask(int taskListId, Task task);
+
+  List<Task> getAllTaskFromTaskList(int taskListId);
 }

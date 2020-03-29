@@ -121,6 +121,14 @@ public class ToDoController {
     return new ResponseEntity<>(taskService.getAllTask(), HttpStatus.OK);
   }
 
+  @GetMapping("/getAllTask/{id}")
+  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @ResponseBody
+  public ResponseEntity<List<Task>> getAllTaskFromTaskList(@PathVariable("id") int taskListId) {
+    return new ResponseEntity<>(taskService.getAllTaskFromTaskList(taskListId), HttpStatus.OK);
+  }
+
+
   @DeleteMapping("/deleteTask/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public ResponseEntity<?> deleteTask(@PathVariable("id") int taskId) {
@@ -157,11 +165,11 @@ public class ToDoController {
     }
   }
 
-  @GetMapping("/getAllSubTask")
+  @GetMapping("/getAllSubTask/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public ResponseEntity<List<SubTask>> getAllSubTask() {
-    return new ResponseEntity<>(subTaskService.getAllSubTask(), HttpStatus.OK);
+  public ResponseEntity<List<SubTask>> getAllSubTask(@PathVariable("id") int taskId) {
+    return new ResponseEntity<>(subTaskService.getAllSubTask(taskId), HttpStatus.OK);
   }
 
   @GetMapping("/getSubTask/{id}")

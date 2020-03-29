@@ -76,4 +76,14 @@ public class TaskDaoImpl implements TaskDao {
     task.setTaskList(taskList);
     session.save(task);
   }
+
+  @SuppressWarnings("JpaQlInspection")
+  @Override
+  public List<Task> getAllTaskFromTaskList(int taskListId) {
+    Session session = this.sessionFactory.getCurrentSession();
+    Query<Task> query = session.createQuery("from Task where task_list_id=:taskListId", Task.class);
+    query.setParameter("taskListId", taskListId);
+    return query.getResultList();
+
+  }
 }
