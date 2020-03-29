@@ -58,7 +58,6 @@ public class PersistenceConfig {
                     awsSecret.get("host"),
                     awsSecret.get("port"),
                     awsSecret.get("dbInstanceIdentifier"));
-    logger.info(String.format("JdbcUrl : %s", jdbcUrl));
     myDataSource.setJdbcUrl(jdbcUrl);
     myDataSource.setUser(awsSecret.get("username"));
     myDataSource.setPassword(awsSecret.get("password"));

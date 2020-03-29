@@ -11,6 +11,7 @@ import com.example.todospringboot.security.UserDetailsImpl;
 import com.example.todospringboot.security.jwt.JwtUtils;
 import com.example.todospringboot.service.RoleRepositoryService;
 import com.example.todospringboot.service.UserRepositoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +42,7 @@ public class AuthController {
 
   final JwtUtils jwtUtils;
 
+  @Autowired
   public AuthController(
           AuthenticationManager authenticationManager,
           UserRepositoryService userRepositoryService,

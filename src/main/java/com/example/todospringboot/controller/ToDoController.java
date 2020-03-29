@@ -9,6 +9,7 @@ import com.example.todospringboot.exceptions.TaskNotFoundException;
 import com.example.todospringboot.service.SubTaskService;
 import com.example.todospringboot.service.TaskListService;
 import com.example.todospringboot.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +31,7 @@ public class ToDoController {
 
   private Logger logger = Logger.getLogger(getClass().getName());
 
+  @Autowired
   public ToDoController(
           SubTaskService subTaskService, TaskListService taskListService, TaskService taskService) {
     this.subTaskService = subTaskService;
