@@ -1,13 +1,12 @@
 package com.example.todospringboot.dao;
 
-
 import com.example.todospringboot.entity.TaskList;
 
 import java.util.List;
 
 public interface TaskListDao {
 
-  List<TaskList> getAllTaskList();
+  List<TaskList> getAllTaskList(String userName);
 
   void deleteTaskList(int taskListId);
 

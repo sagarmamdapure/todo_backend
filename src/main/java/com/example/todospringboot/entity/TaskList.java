@@ -16,10 +16,13 @@ public class TaskList {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
+
   @Column(name = "task_list_name")
   private String taskListName;
+
   @Column(name = "user_name")
   private String userName;
+
   @JsonIgnore
   @OneToMany(
           targetEntity = Task.class,

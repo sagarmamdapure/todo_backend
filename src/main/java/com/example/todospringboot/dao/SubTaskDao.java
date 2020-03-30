@@ -6,7 +6,7 @@ import com.example.todospringboot.entity.SubTask;
 import java.util.List;
 
 public interface SubTaskDao {
-  List<SubTask> getAllSubTask();
+  List<SubTask> getAllSubTask(int taskId);
 
   void deleteSubTask(int subTaskId);
 

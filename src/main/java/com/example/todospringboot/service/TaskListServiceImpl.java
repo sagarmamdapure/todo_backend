@@ -14,8 +14,8 @@ public class TaskListServiceImpl implements TaskListService {
 
   @Override
   @Transactional
-  public List<TaskList> getAllTaskList() {
-    return taskListDao.getAllTaskList();
+  public List<TaskList> getAllTaskList(String userName) {
+    return taskListDao.getAllTaskList(userName);
   }
 
   @Override

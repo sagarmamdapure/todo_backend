@@ -19,9 +19,11 @@ public class TaskListDaoImpl implements TaskListDao {
   }
 
   @Override
-  public List<TaskList> getAllTaskList() {
+  public List<TaskList> getAllTaskList(String userName) {
     Session session = this.sessionFactory.getCurrentSession();
-    Query<TaskList> theQuery = session.createQuery("from TaskList", TaskList.class);
+    Query<TaskList> theQuery =
+            session.createQuery("from TaskList where userName=:userName", TaskList.class);
+    theQuery.setParameter("userName", userName);
     return theQuery.getResultList();
   }
 

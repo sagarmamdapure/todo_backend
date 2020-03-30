@@ -41,4 +41,10 @@ public class TaskServiceImpl implements TaskService {
   public void addTask(int taskListId, Task task) {
     taskDao.addTask(taskListId, task);
   }
+
+  @Override
+  @Transactional
+  public List<Task> getAllTaskFromTaskList(int taskListId) {
+    return taskDao.getAllTaskFromTaskList(taskListId);
+  }
 }
