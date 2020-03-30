@@ -1,13 +1,12 @@
 package com.example.todospringboot.service;
 
-
 import com.example.todospringboot.entity.TaskList;
 
 import java.util.List;
 
 public interface TaskListService {
 
-  List<TaskList> getAllTaskList();
+  List<TaskList> getAllTaskList(String userName);
 
   void deleteTaskList(int taskListId);
 
@@ -16,5 +15,4 @@ public interface TaskListService {
   void updateTaskList(int taskListId, TaskList taskList);
 
   void addTaskList(TaskList taskList);
-
 }

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +43,8 @@ public class ToDoController {
   @PostMapping("/addTaskList")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public void addTaskList(@RequestBody TaskList taskList) {
+  public void addTaskList(@RequestBody TaskList taskList, Authentication authentication) {
+    taskList.setUserName(authentication.getName());
     taskListService.addTaskList(taskList);
   }
 
@@ -73,8 +75,8 @@ public class ToDoController {
   @GetMapping("/getAllTaskList")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public ResponseEntity<List<TaskList>> getAllTaskList() {
-    return new ResponseEntity<>(taskListService.getAllTaskList(), HttpStatus.OK);
+  public ResponseEntity<List<TaskList>> getAllTaskList(Authentication authentication) {
+    return new ResponseEntity<>(taskListService.getAllTaskList(authentication.getName()), HttpStatus.OK);
   }
 
   @PutMapping(value = "/updateTaskList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -93,8 +95,9 @@ public class ToDoController {
   @PostMapping("/addTask/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public void addTask(@PathVariable("id") int taskListId, @RequestBody Task task) {
+  public void addTask(@PathVariable("id") int taskListId, @RequestBody Task task, Authentication authentication) {
     try {
+      task.setUserName(authentication.getName());
       taskService.addTask(taskListId, task);
     } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
@@ -156,8 +159,9 @@ public class ToDoController {
   @PostMapping("/addSubTask/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public void addSubTask(@PathVariable("id") int taskId, @RequestBody SubTask subTask) {
+  public void addSubTask(@PathVariable("id") int taskId, @RequestBody SubTask subTask, Authentication authentication) {
     try {
+      subTask.setUserName(authentication.getName());
       subTaskService.addSubTask(taskId, subTask);
     } catch (EmptyResultDataAccessException e) {
       logger.log(Level.SEVERE, e.getLocalizedMessage());
