@@ -25,10 +25,13 @@ public class SubTaskDaoImpl implements SubTaskDao {
 
   @SuppressWarnings("JpaQlInspection")
   @Override
-  public List<SubTask> getAllSubTask(int taskId) {
+  public List<SubTask> getAllSubTask(String userName, int taskId) {
     Session session = this.sessionFactory.getCurrentSession();
-    Query<SubTask> query = session.createQuery("from SubTask where task_id=:taskId", SubTask.class);
+    Query<SubTask> query =
+            session.createQuery(
+                    "from SubTask where task_id=:taskId and userName=:userName", SubTask.class);
     query.setParameter("taskId", taskId);
+    query.setParameter("userName", userName);
     return query.getResultList();
   }
 

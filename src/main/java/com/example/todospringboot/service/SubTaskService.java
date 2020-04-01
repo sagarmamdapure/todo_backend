@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SubTaskService {
 
-  List<SubTask> getAllSubTask(int taskId);
+  List<SubTask> getAllSubTask(String userName, int taskId);
 
   SubTask getSubTask(int subTaskId) throws EntityNotFoundException;
 

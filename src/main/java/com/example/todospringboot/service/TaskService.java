@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TaskService {
 
-  List<Task> getAllTask();
+  List<Task> getAllTask(String userName);
 
   void deleteTask(int taskId);
 
@@ -16,5 +16,5 @@ public interface TaskService {
 
   void addTask(int taskListId, Task task);
 
-  List<Task> getAllTaskFromTaskList(int taskListId);
+  List<Task> getAllTaskFromTaskList(String userName, int taskListId);
 }

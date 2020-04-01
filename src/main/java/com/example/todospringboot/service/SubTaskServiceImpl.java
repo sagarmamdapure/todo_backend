@@ -15,8 +15,8 @@ public class SubTaskServiceImpl implements SubTaskService {
 
   @Override
   @Transactional
-  public List<SubTask> getAllSubTask(int taskId) {
-    return subTaskDao.getAllSubTask(taskId);
+  public List<SubTask> getAllSubTask(String userName, int taskId) {
+    return subTaskDao.getAllSubTask(userName, taskId);
   }
 
   @Override

@@ -23,9 +23,10 @@ public class TaskDaoImpl implements TaskDao {
   }
 
   @Override
-  public List<Task> getAllTask() {
+  public List<Task> getAllTask(String userName) {
     Session session = this.sessionFactory.getCurrentSession();
-    Query<Task> query = session.createQuery("from Task", Task.class);
+    Query<Task> query = session.createQuery("from Task where userName=:userName", Task.class);
+    query.setParameter("userName", userName);
     return query.getResultList();
   }
 
@@ -79,11 +80,13 @@ public class TaskDaoImpl implements TaskDao {
 
   @SuppressWarnings("JpaQlInspection")
   @Override
-  public List<Task> getAllTaskFromTaskList(int taskListId) {
+  public List<Task> getAllTaskFromTaskList(String userName, int taskListId) {
     Session session = this.sessionFactory.getCurrentSession();
-    Query<Task> query = session.createQuery("from Task where task_list_id=:taskListId", Task.class);
+    Query<Task> query =
+            session.createQuery(
+                    "from Task where task_list_id=:taskListId and userName=:userName", Task.class);
     query.setParameter("taskListId", taskListId);
+    query.setParameter("userName", userName);
     return query.getResultList();
-
   }
 }

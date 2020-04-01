@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TaskDao {
 
-  List<Task> getAllTask();
+  List<Task> getAllTask(String userName);
 
   void deleteTask(int taskId);
 
@@ -17,5 +17,5 @@ public interface TaskDao {
 
   void addTask(int taskListId, Task task);
 
-  List<Task> getAllTaskFromTaskList(int taskListId);
+  List<Task> getAllTaskFromTaskList(String userName, int taskListId);
 }
