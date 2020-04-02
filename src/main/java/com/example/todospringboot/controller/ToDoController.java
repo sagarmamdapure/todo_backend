@@ -120,15 +120,15 @@ public class ToDoController {
   @GetMapping("/getAllTask")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public ResponseEntity<List<Task>> getAllTask() {
-    return new ResponseEntity<>(taskService.getAllTask(), HttpStatus.OK);
+  public ResponseEntity<List<Task>> getAllTask(Authentication authentication) {
+    return new ResponseEntity<>(taskService.getAllTask(authentication.getName()), HttpStatus.OK);
   }
 
   @GetMapping("/getAllTask/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public ResponseEntity<List<Task>> getAllTaskFromTaskList(@PathVariable("id") int taskListId) {
-    return new ResponseEntity<>(taskService.getAllTaskFromTaskList(taskListId), HttpStatus.OK);
+  public ResponseEntity<List<Task>> getAllTaskFromTaskList(@PathVariable("id") int taskListId, Authentication authentication) {
+    return new ResponseEntity<>(taskService.getAllTaskFromTaskList(authentication.getName(), taskListId), HttpStatus.OK);
   }
 
 
@@ -172,8 +172,8 @@ public class ToDoController {
   @GetMapping("/getAllSubTask/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public ResponseEntity<List<SubTask>> getAllSubTask(@PathVariable("id") int taskId) {
-    return new ResponseEntity<>(subTaskService.getAllSubTask(taskId), HttpStatus.OK);
+  public ResponseEntity<List<SubTask>> getAllSubTask(Authentication authentication, @PathVariable("id") int taskId) {
+    return new ResponseEntity<>(subTaskService.getAllSubTask(authentication.getName(), taskId), HttpStatus.OK);
   }
 
   @GetMapping("/getSubTask/{id}")

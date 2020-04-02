@@ -14,8 +14,8 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   @Transactional
-  public List<Task> getAllTask() {
-    return taskDao.getAllTask();
+  public List<Task> getAllTask(String userName) {
+    return taskDao.getAllTask(userName);
   }
 
   @Override
@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   @Transactional
-  public List<Task> getAllTaskFromTaskList(int taskListId) {
-    return taskDao.getAllTaskFromTaskList(taskListId);
+  public List<Task> getAllTaskFromTaskList(String userName, int taskListId) {
+    return taskDao.getAllTaskFromTaskList(userName, taskListId);
   }
 }
