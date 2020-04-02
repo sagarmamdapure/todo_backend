@@ -1,7 +1,7 @@
 # noinspection SqlNoDataSourceInspectionForFile
 
-CREATE DATABASE IF NOT EXISTS `todo_list`;
-USE `todo_list`;
+CREATE DATABASE IF NOT EXISTS `todolist`;
+USE `todolist`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -68,10 +68,12 @@ CREATE TABLE `roles`
 
 CREATE TABLE `users`
 (
-    `id`       int          NOT NULL AUTO_INCREMENT,
-    `email`    varchar(45)  NOT NULL,
-    `username` varchar(45)  NOT NULL,
-    `password` varchar(120) NOT NULL,
+    `id`        int          NOT NULL AUTO_INCREMENT,
+    `email`     varchar(45)  NOT NULL,
+    `username`  varchar(45)  NOT NULL,
+    `password`  varchar(120) NOT NULL,
+    `firstname` varchar(50),
+    `lastname`  varchar(50),
     PRIMARY KEY (`id`),
     CONSTRAINT UNIQUE_USERS UNIQUE (`username`, `password`)
 ) ENGINE = InnoDB
