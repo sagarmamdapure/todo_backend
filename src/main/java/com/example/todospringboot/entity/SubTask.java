@@ -94,6 +94,10 @@ public class SubTask {
     this.task = task;
   }
 
+  public static SubTask getDefaultInstance() {
+    return new SubTask();
+  }
+
   @Override
   public String toString() {
     return "SubTask{"
