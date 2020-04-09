@@ -100,6 +100,10 @@ public class User {
     return password;
   }
 
+  public static User getDefaultInstance() {
+    return new User();
+  }
+
   public void setPassword(String password) {
     this.password = password;
   }

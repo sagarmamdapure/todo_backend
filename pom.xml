@@ -108,6 +108,11 @@
             <artifactId>aws-java-sdk-secretsmanager</artifactId>
             <version>1.11.753</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>

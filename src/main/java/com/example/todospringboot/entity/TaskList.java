@@ -55,18 +55,8 @@ public class TaskList {
     this.tasks = tasks;
   }
 
-  @Override
-  public String toString() {
-    return "TaskList{"
-            + "id="
-            + id
-            + ", taskListName='"
-            + taskListName
-            + '\''
-            + ", userName='"
-            + userName
-            + '\''
-            + '}';
+  public static TaskList getDefaultInstance() {
+    return new TaskList();
   }
 
   public void add(Task task) {
@@ -91,5 +81,19 @@ public class TaskList {
 
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  @Override
+  public String toString() {
+    return "TaskList{"
+            + "id="
+            + id
+            + ", taskListName='"
+            + taskListName
+            + '\''
+            + ", userName='"
+            + userName
+            + '\''
+            + '}';
   }
 }

@@ -138,4 +138,8 @@ public class Task {
             + '\''
             + '}';
   }
+
+  public static Task getDefaultInstance() {
+    return new Task();
+  }
 }
