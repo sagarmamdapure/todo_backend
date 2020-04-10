@@ -20,8 +20,8 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   @Transactional
-  public void deleteTask(int taskId) {
-    taskDao.deleteTask(taskId);
+  public void deleteTask(int taskId, String userName) {
+    taskDao.deleteTask(taskId, userName);
   }
 
   @Override
@@ -32,8 +32,8 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   @Transactional
-  public void updateTask(int taskId, Task task) {
-    taskDao.updateTask(taskId, task);
+  public void updateTask(int taskId, Task task, String userName) {
+    taskDao.updateTask(taskId, task, userName);
   }
 
   @Override

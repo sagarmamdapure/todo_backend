@@ -12,9 +12,9 @@ public interface SubTaskService {
 
   SubTask getSubTask(int subTaskId) throws EntityNotFoundException;
 
-  void deleteSubTask(int subTaskId);
+  void deleteSubTask(int subTaskId, String userName);
 
   void addSubTask(int taskId, SubTask subTask);
 
-  void updateSubTask(int subTaskId, SubTask subTask);
+  void updateSubTask(int subTaskId, SubTask subTask, String userName);
 }

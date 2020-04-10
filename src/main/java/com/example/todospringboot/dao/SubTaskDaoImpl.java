@@ -26,55 +26,61 @@ public class SubTaskDaoImpl implements SubTaskDao {
   @SuppressWarnings("JpaQlInspection")
   @Override
   public List<SubTask> getAllSubTask(String userName, int taskId) {
-    Session session = this.sessionFactory.getCurrentSession();
-    Query<SubTask> query =
-            session.createQuery(
-                    "from SubTask where task_id=:taskId and userName=:userName", SubTask.class);
-    query.setParameter("taskId", taskId);
-    query.setParameter("userName", userName);
-    return query.getResultList();
+      Session session = this.sessionFactory.getCurrentSession();
+      Query<SubTask> query =
+              session.createQuery(
+                      "from SubTask where task_id=:taskId and userName=:userName", SubTask.class);
+      query.setParameter("taskId", taskId);
+      query.setParameter("userName", userName);
+      return query.getResultList();
   }
 
-  @Override
-  public void deleteSubTask(int subTaskId) {
+    @Override
+    public void deleteSubTask(int subTaskId, String userName) {
 
-    SubTask subTask = this.getSubTask(subTaskId);
-    Session session = this.sessionFactory.getCurrentSession();
-    session.delete(subTask);
-  }
+        SubTask subTask = this.getSubTask(subTaskId);
+        if (subTask.getUserName().equals(userName)) {
+            Session session = this.sessionFactory.getCurrentSession();
+            session.delete(subTask);
+        }
+        // TODO: Add custom exception when user tries to delete other users data
+    }
 
-  @Override
+    @Override
   public void addSubTask(int taskId, SubTask subTask) {
     Session session = this.sessionFactory.getCurrentSession();
     Task task = this.taskDao.getTask(taskId);
     subTask.setTask(task);
     session.save(subTask);
-  }
+    }
 
-  @Override
-  public SubTask getSubTask(int subTaskId) throws EntityNotFoundException {
-    Session session = this.sessionFactory.getCurrentSession();
-    Query<SubTask> query = session.createQuery("from SubTask where id=:subTaskId", SubTask.class);
-    query.setParameter("subTaskId", subTaskId);
-    return query.getSingleResult();
-  }
+    @Override
+    public SubTask getSubTask(int subTaskId) throws EntityNotFoundException {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query<SubTask> query = session.createQuery("from SubTask where id=:subTaskId", SubTask.class);
+        query.setParameter("subTaskId", subTaskId);
+        return query.getSingleResult();
+    }
 
-  @Override
-  public void updateSubTask(int subTaskId, SubTask subTask) {
-    Session session = this.sessionFactory.getCurrentSession();
-    SubTask subTaskOrig = this.getSubTask(subTaskId);
-    if (subTask.getTask() != null) {
-      subTaskOrig.setTask(subTask.getTask());
+    @Override
+    public void updateSubTask(int subTaskId, SubTask subTask, String userName) {
+        Session session = this.sessionFactory.getCurrentSession();
+        SubTask subTaskOrig = this.getSubTask(subTaskId);
+        if (subTaskOrig.getUserName().equals(userName)) {
+            if (subTask.getTask() != null) {
+                subTaskOrig.setTask(subTask.getTask());
+            }
+            if (subTask.getSubTaskDescription() != null) {
+                subTaskOrig.setSubTaskDescription(subTask.getSubTaskDescription());
+            }
+            if (subTask.getSubTaskStatus() != null) {
+                subTaskOrig.setSubTaskStatus(subTask.getSubTaskStatus());
+            }
+            if (subTask.getUserName() != null) {
+                subTaskOrig.setUserName(subTask.getUserName());
+            }
+            session.update(subTaskOrig);
+        }
+        // TODO: Add custom exception when user tries to delete other users data
     }
-    if (subTask.getSubTaskDescription() != null) {
-      subTaskOrig.setSubTaskDescription(subTask.getSubTaskDescription());
-    }
-    if (subTask.getSubTaskStatus() != null) {
-      subTaskOrig.setSubTaskStatus(subTask.getSubTaskStatus());
-    }
-    if (subTask.getUserName() != null) {
-      subTaskOrig.setUserName(subTask.getUserName());
-    }
-    session.update(subTaskOrig);
-  }
 }

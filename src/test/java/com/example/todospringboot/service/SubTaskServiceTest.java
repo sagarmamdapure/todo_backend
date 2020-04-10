@@ -87,7 +87,7 @@ public class SubTaskServiceTest {
 
   @Test
   public void testDeleteSubTask() {
-    subTaskService.deleteSubTask(1);
+    subTaskService.deleteSubTask(1, "test_user");
   }
 
   @Test
@@ -97,6 +97,6 @@ public class SubTaskServiceTest {
 
   @Test
   public void testUpdateSubTask() {
-    subTaskService.updateSubTask(1, SubTask.getDefaultInstance());
+    subTaskService.updateSubTask(1, SubTask.getDefaultInstance(), "test_user");
   }
 }

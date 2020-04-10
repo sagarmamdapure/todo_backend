@@ -31,10 +31,13 @@ public class TaskDaoImpl implements TaskDao {
   }
 
   @Override
-  public void deleteTask(int taskId) {
+  public void deleteTask(int taskId, String userName) {
     Task task = this.getTask(taskId);
-    Session session = this.sessionFactory.getCurrentSession();
-    session.delete(task);
+    if (task.getUserName().equals(userName)) {
+      Session session = this.sessionFactory.getCurrentSession();
+      session.delete(task);
+    }
+    // TODO: Add custom exception when user tries to delete other users data
   }
 
   @Override
@@ -46,28 +49,31 @@ public class TaskDaoImpl implements TaskDao {
   }
 
   @Override
-  public void updateTask(int taskId, Task task) {
+  public void updateTask(int taskId, Task task, String userName) {
     Task taskOrig = this.getTask(taskId);
-    Session session = this.sessionFactory.getCurrentSession();
-    if (task.getTaskList() != null) {
-      taskOrig.setTaskList(task.getTaskList());
+    if (taskOrig.getUserName().equals(userName)) {
+      Session session = this.sessionFactory.getCurrentSession();
+      if (task.getTaskList() != null) {
+        taskOrig.setTaskList(task.getTaskList());
+      }
+      if (task.getTaskDescription() != null) {
+        taskOrig.setTaskDescription(task.getTaskDescription());
+      }
+      if (task.getSubTasks() != null) {
+        taskOrig.setSubTasks(task.getSubTasks());
+      }
+      if (task.getTaskName() != null) {
+        taskOrig.setTaskName(task.getTaskName());
+      }
+      if (task.getTaskStatus() != null) {
+        taskOrig.setTaskStatus(task.getTaskStatus());
+      }
+      if (task.getUserName() != null) {
+        taskOrig.setUserName(task.getUserName());
+      }
+      session.update(taskOrig);
     }
-    if (task.getTaskDescription() != null) {
-      taskOrig.setTaskDescription(task.getTaskDescription());
-    }
-    if (task.getSubTasks() != null) {
-      taskOrig.setSubTasks(task.getSubTasks());
-    }
-    if (task.getTaskName() != null) {
-      taskOrig.setTaskName(task.getTaskName());
-    }
-    if (task.getTaskStatus() != null) {
-      taskOrig.setTaskStatus(task.getTaskStatus());
-    }
-    if (task.getUserName() != null) {
-      taskOrig.setUserName(task.getUserName());
-    }
-    session.update(taskOrig);
+    // TODO: Add custom exception when user tries to delete other users data
   }
 
   @Override

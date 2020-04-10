@@ -56,7 +56,7 @@ public class TaskServiceTest {
 
     @Test
     public void testDeleteTask() {
-        taskService.deleteTask(1);
+        taskService.deleteTask(1, "test_user");
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TaskServiceTest {
 
     @Test
     public void testUpdateTask() {
-        taskService.updateTask(1, Task.getDefaultInstance());
+        taskService.updateTask(1, Task.getDefaultInstance(), "test_user");
     }
 
     @Test

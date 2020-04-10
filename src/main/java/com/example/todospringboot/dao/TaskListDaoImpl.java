@@ -28,10 +28,13 @@ public class TaskListDaoImpl implements TaskListDao {
   }
 
   @Override
-  public void deleteTaskList(int taskListId) {
+  public void deleteTaskList(int taskListId, String userName) {
     TaskList taskList = this.getTaskList(taskListId);
-    Session session = this.sessionFactory.getCurrentSession();
-    session.delete(taskList);
+    if (taskList.getUserName().equals(userName)) {
+      Session session = this.sessionFactory.getCurrentSession();
+      session.delete(taskList);
+    }
+    // TODO: Add custom exception when user tries to delete other users data
   }
 
   @Override
@@ -44,19 +47,22 @@ public class TaskListDaoImpl implements TaskListDao {
   }
 
   @Override
-  public void updateTaskList(int taskListId, TaskList taskList) {
+  public void updateTaskList(int taskListId, TaskList taskList, String userName) {
     TaskList taskListOrig = this.getTaskList(taskListId);
-    Session session = this.sessionFactory.getCurrentSession();
-    if (taskList.getTaskListName() != null) {
-      taskListOrig.setTaskListName(taskList.getTaskListName());
+    if (taskListOrig.getUserName().equals(userName)) {
+      Session session = this.sessionFactory.getCurrentSession();
+      if (taskList.getTaskListName() != null) {
+        taskListOrig.setTaskListName(taskList.getTaskListName());
+      }
+      if (taskList.getTasks() != null) {
+        taskListOrig.setTasks(taskList.getTasks());
+      }
+      if (taskList.getUserName() != null) {
+        taskListOrig.setUserName(taskList.getUserName());
+      }
+      session.update(taskListOrig);
     }
-    if (taskList.getTasks() != null) {
-      taskListOrig.setTasks(taskList.getTasks());
-    }
-    if (taskList.getUserName() != null) {
-      taskListOrig.setUserName(taskList.getUserName());
-    }
-    session.update(taskListOrig);
+    // TODO: Add custom exception when user tries to delete other users data
   }
 
   @Override

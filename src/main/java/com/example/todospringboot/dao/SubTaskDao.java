@@ -8,11 +8,11 @@ import java.util.List;
 public interface SubTaskDao {
   List<SubTask> getAllSubTask(String userName, int taskId);
 
-  void deleteSubTask(int subTaskId);
+  void deleteSubTask(int subTaskId, String userName);
 
   void addSubTask(int taskId, SubTask subTask);
 
   SubTask getSubTask(int subTaskId);
 
-  void updateSubTask(int subTaskId, SubTask subTask);
+  void updateSubTask(int subTaskId, SubTask subTask, String userName);
 }

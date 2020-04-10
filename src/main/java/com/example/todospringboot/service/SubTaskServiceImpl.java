@@ -27,8 +27,8 @@ public class SubTaskServiceImpl implements SubTaskService {
 
   @Override
   @Transactional
-  public void deleteSubTask(int subTaskId) {
-    subTaskDao.deleteSubTask(subTaskId);
+  public void deleteSubTask(int subTaskId, String userName) {
+    subTaskDao.deleteSubTask(subTaskId, userName);
   }
 
   @Transactional
@@ -39,7 +39,7 @@ public class SubTaskServiceImpl implements SubTaskService {
 
   @Override
   @Transactional
-  public void updateSubTask(int subTaskId, SubTask subTask) {
-    subTaskDao.updateSubTask(subTaskId, subTask);
+  public void updateSubTask(int subTaskId, SubTask subTask, String userName) {
+    subTaskDao.updateSubTask(subTaskId, subTask, userName);
   }
 }

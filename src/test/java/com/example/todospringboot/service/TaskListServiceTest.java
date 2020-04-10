@@ -41,7 +41,7 @@ public class TaskListServiceTest {
 
   @Test
   public void testDeleteTaskList() {
-    taskListService.deleteTaskList(1);
+    taskListService.deleteTaskList(1, "test_user");
   }
 
   @Test
@@ -62,7 +62,7 @@ public class TaskListServiceTest {
   @Test
   public void testUpdateTaskList() {
     TaskList taskList = new TaskList("test_name", "test_user");
-    taskListService.updateTaskList(1, taskList);
+    taskListService.updateTaskList(1, taskList, "test_user");
   }
 
   private ArrayList<TaskList> getTestData() {
