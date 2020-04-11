@@ -19,6 +19,7 @@ CREATE TABLE `tasklist`
     `user_name`      varchar(45) DEFAULT NULL,
     `created_at`     datetime    DEFAULT NULL,
     `modified_at`    datetime    DEFAULT NULL,
+    `due_date`       timestamp   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -32,6 +33,7 @@ CREATE TABLE `task`
     `task_status`      varchar(45) DEFAULT NULL,
     `created_at`       datetime    DEFAULT NULL,
     `modified_at`      datetime    DEFAULT NULL,
+    `due_date`         timestamp   DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `FK_DETAIL_idx` (`task_list_id`),
     CONSTRAINT `FK_DETAIL` FOREIGN KEY (`task_list_id`) REFERENCES `tasklist` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -49,6 +51,7 @@ CREATE TABLE `subtask`
     `subtask_status`      varchar(45) DEFAULT NULL,
     `created_at`          timestamp   DEFAULT NULL,
     `modified_at`         timestamp   DEFAULT NULL,
+    `due_date`            timestamp   DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `FK_SUBTASK_DETAIL_idx` (`task_id`),
     CONSTRAINT `FK_SUBTASK_DETAIL` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

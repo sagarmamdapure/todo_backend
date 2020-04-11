@@ -31,30 +31,33 @@ public class Task {
   @Column(name = "task_description")
   private String taskDescription;
 
-    @Column(name = "task_status")
-    private String taskStatus;
+  @Column(name = "task_status")
+  private String taskStatus;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_list_id", updatable = false)
-    @Fetch(FetchMode.JOIN)
-    private TaskList taskList;
+  @Column(name = "created_at")
+  private Timestamp createdTimeStamp;
 
-    @Column(name = "created_at")
-    private Timestamp createdTimeStamp;
+  @Column(name = "modified_at")
+  private Timestamp modifiedTimeStamp;
 
-    @Column(name = "modified_at")
-    private Timestamp modifiedTimeStamp;
+  @Column(name = "due_date")
+  private Timestamp dueDate;
 
-    @JsonIgnore
-    @OneToMany(
-            targetEntity = SubTask.class,
-            mappedBy = "task",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private List<SubTask> subTasks;
+  @JsonIgnore
+  @OneToMany(
+          targetEntity = SubTask.class,
+          mappedBy = "task",
+          cascade = CascadeType.ALL,
+          fetch = FetchType.LAZY)
+  private List<SubTask> subTasks;
 
-    public Task() {
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "task_list_id", updatable = false)
+  @Fetch(FetchMode.JOIN)
+  private TaskList taskList;
+
+  public Task() {
   }
 
   public Task(String taskName, String userName, String taskDescription, String taskStatus) {
@@ -62,6 +65,10 @@ public class Task {
     this.userName = userName;
     this.taskDescription = taskDescription;
     this.taskStatus = taskStatus;
+  }
+
+  public static Task getDefaultInstance() {
+    return new Task();
   }
 
   public int getId() {
@@ -120,39 +127,47 @@ public class Task {
     this.taskDescription = taskDescription;
   }
 
-    public String getTaskStatus() {
-        return taskStatus;
-    }
+  public String getTaskStatus() {
+    return taskStatus;
+  }
 
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
-    }
+  public void setTaskStatus(String taskStatus) {
+    this.taskStatus = taskStatus;
+  }
 
-    public Timestamp getCreatedTimeStamp() {
-        return createdTimeStamp;
-    }
+  public Timestamp getCreatedTimeStamp() {
+    return createdTimeStamp;
+  }
 
-    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
-    }
+  public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+    this.createdTimeStamp = createdTimeStamp;
+  }
 
-    public Timestamp getModifiedTimeStamp() {
-        return modifiedTimeStamp;
-    }
+  public Timestamp getModifiedTimeStamp() {
+    return modifiedTimeStamp;
+  }
 
-    public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
-        this.modifiedTimeStamp = modifiedTimeStamp;
-    }
+  public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+    this.modifiedTimeStamp = modifiedTimeStamp;
+  }
 
-    @Override
-    public String toString() {
-        return "Task{"
-                + "id="
-                + id
-                + ", taskName='"
-                + taskName
-                + '\''
-                + ", userName='"
+  public Timestamp getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(Timestamp dueDate) {
+    this.dueDate = dueDate;
+  }
+
+  @Override
+  public String toString() {
+    return "Task{"
+            + "id="
+            + id
+            + ", taskName='"
+            + taskName
+            + '\''
+            + ", userName='"
             + userName
             + '\''
             + ", taskDescription='"
@@ -162,9 +177,5 @@ public class Task {
             + taskStatus
             + '\''
             + '}';
-  }
-
-  public static Task getDefaultInstance() {
-    return new Task();
   }
 }

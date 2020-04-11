@@ -32,17 +32,20 @@ public class SubTask {
   @Column(name = "subtask_status")
   private String subTaskStatus;
 
-  @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "task_id", updatable = false)
-  @Fetch(FetchMode.JOIN)
-  private Task task;
-
   @Column(name = "created_at")
   private Timestamp createdTimeStamp;
 
   @Column(name = "modified_at")
   private Timestamp modifiedTimeStamp;
+
+  @Column(name = "due_date")
+  private Timestamp dueDate;
+
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "task_id", updatable = false)
+  @Fetch(FetchMode.JOIN)
+  private Task task;
 
   public SubTask() {
   }
@@ -57,10 +60,6 @@ public class SubTask {
 
   public static SubTask getDefaultInstance() {
     return new SubTask();
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getSubTaskName() {
@@ -99,12 +98,16 @@ public class SubTask {
     return task;
   }
 
+  public void setTask(Task task) {
+    this.task = task;
+  }
+
   public int getId() {
     return id;
   }
 
-  public void setTask(Task task) {
-    this.task = task;
+  public void setId(int id) {
+    this.id = id;
   }
 
   public Timestamp getCreatedTimeStamp() {
@@ -121,6 +124,14 @@ public class SubTask {
 
   public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
     this.modifiedTimeStamp = modifiedTimeStamp;
+  }
+
+  public Timestamp getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(Timestamp dueDate) {
+    this.dueDate = dueDate;
   }
 
   @Override

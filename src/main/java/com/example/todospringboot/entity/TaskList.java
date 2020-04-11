@@ -23,24 +23,27 @@ public class TaskList {
     @Column(name = "task_list_name")
     private String taskListName;
 
-    @Column(name = "user_name")
-    private String userName;
+  @Column(name = "user_name")
+  private String userName;
 
-    @Column(name = "created_at")
-    private Timestamp createdTimeStamp;
+  @Column(name = "created_at")
+  private Timestamp createdTimeStamp;
 
-    @Column(name = "modified_at")
-    private Timestamp modifiedTimeStamp;
+  @Column(name = "modified_at")
+  private Timestamp modifiedTimeStamp;
 
-    @JsonIgnore
-    @OneToMany(
-            targetEntity = Task.class,
-            cascade = CascadeType.ALL,
-            mappedBy = "taskList",
-            fetch = FetchType.LAZY)
-    private List<Task> tasks;
+  @Column(name = "due_date")
+  private Timestamp dueDate;
 
-    public TaskList(String taskListNameArg, String userNameArg) {
+  @JsonIgnore
+  @OneToMany(
+          targetEntity = Task.class,
+          cascade = CascadeType.ALL,
+          mappedBy = "taskList",
+          fetch = FetchType.LAZY)
+  private List<Task> tasks;
+
+  public TaskList(String taskListNameArg, String userNameArg) {
     taskListName = taskListNameArg;
     userName = userNameArg;
   }
@@ -100,25 +103,33 @@ public class TaskList {
         this.createdTimeStamp = createdTimeStamp;
     }
 
-    public Timestamp getModifiedTimeStamp() {
-        return modifiedTimeStamp;
-    }
+  public Timestamp getModifiedTimeStamp() {
+    return modifiedTimeStamp;
+  }
 
-    public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
-        this.modifiedTimeStamp = modifiedTimeStamp;
-    }
+  public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+    this.modifiedTimeStamp = modifiedTimeStamp;
+  }
 
-    @Override
-    public String toString() {
-        return "TaskList{"
-                + "id="
-                + id
-                + ", taskListName='"
-                + taskListName
-                + '\''
-                + ", userName='"
-                + userName
-                + '\''
+  public Timestamp getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(Timestamp dueDate) {
+    this.dueDate = dueDate;
+  }
+
+  @Override
+  public String toString() {
+    return "TaskList{"
+            + "id="
+            + id
+            + ", taskListName='"
+            + taskListName
+            + '\''
+            + ", userName='"
+            + userName
+            + '\''
                 + '}';
   }
 }
