@@ -2,6 +2,7 @@ package com.example.todospringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "subtask")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubTask {
 
   @Id
@@ -27,35 +29,34 @@ public class SubTask {
   @Column(name = "subtask_description")
   private String subTaskDescription;
 
-    @Column(name = "subtask_status")
-    private String subTaskStatus;
+  @Column(name = "subtask_status")
+  private String subTaskStatus;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", updatable = false)
-    @Fetch(FetchMode.JOIN)
-    private Task task;
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "task_id", updatable = false)
+  @Fetch(FetchMode.JOIN)
+  private Task task;
 
-    @Column(name = "created_at")
-    private Timestamp createdTimeStamp;
+  @Column(name = "created_at")
+  private Timestamp createdTimeStamp;
 
-    @Column(name = "modified_at")
-    private Timestamp modifiedTimeStamp;
+  @Column(name = "modified_at")
+  private Timestamp modifiedTimeStamp;
 
+  public SubTask() {
+  }
 
-    public SubTask() {
-    }
+  public SubTask(
+          String subTaskName, String userName, String subTaskDescription, String subTaskStatus) {
+    this.subTaskName = subTaskName;
+    this.userName = userName;
+    this.subTaskDescription = subTaskDescription;
+    this.subTaskStatus = subTaskStatus;
+  }
 
-    public SubTask(
-            String subTaskName, String userName, String subTaskDescription, String subTaskStatus) {
-        this.subTaskName = subTaskName;
-        this.userName = userName;
-        this.subTaskDescription = subTaskDescription;
-        this.subTaskStatus = subTaskStatus;
-    }
-
-    public int getId() {
-    return id;
+  public static SubTask getDefaultInstance() {
+    return new SubTask();
   }
 
   public void setId(int id) {
@@ -98,47 +99,47 @@ public class SubTask {
     return task;
   }
 
-    public void setTask(Task task) {
-        this.task = task;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public static SubTask getDefaultInstance() {
-        return new SubTask();
-    }
+  public void setTask(Task task) {
+    this.task = task;
+  }
 
-    public Timestamp getCreatedTimeStamp() {
-        return createdTimeStamp;
-    }
+  public Timestamp getCreatedTimeStamp() {
+    return createdTimeStamp;
+  }
 
-    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
-    }
+  public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+    this.createdTimeStamp = createdTimeStamp;
+  }
 
-    public Timestamp getModifiedTimeStamp() {
-        return modifiedTimeStamp;
-    }
+  public Timestamp getModifiedTimeStamp() {
+    return modifiedTimeStamp;
+  }
 
-    public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
-        this.modifiedTimeStamp = modifiedTimeStamp;
-    }
+  public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+    this.modifiedTimeStamp = modifiedTimeStamp;
+  }
 
-    @Override
-    public String toString() {
-        return "SubTask{"
-                + "id="
-                + id
-                + ", subTaskName='"
-                + subTaskName
-                + '\''
-                + ", userName='"
-                + userName
-                + '\''
-                + ", subTaskDescription='"
-                + subTaskDescription
-                + '\''
-                + ", subTaskStatus='"
-                + subTaskStatus
-                + '\''
-                + '}';
+  @Override
+  public String toString() {
+    return "SubTask{"
+            + "id="
+            + id
+            + ", subTaskName='"
+            + subTaskName
+            + '\''
+            + ", userName='"
+            + userName
+            + '\''
+            + ", subTaskDescription='"
+            + subTaskDescription
+            + '\''
+            + ", subTaskStatus='"
+            + subTaskStatus
+            + '\''
+            + '}';
   }
 }
