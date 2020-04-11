@@ -78,7 +78,7 @@ public class PersistenceConfig {
 
     props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
     props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-
+    props.setProperty("hibernate.jdbc.time_zone", env.getProperty("hibernate.jdbc.time_zone"));
     return props;
   }
 

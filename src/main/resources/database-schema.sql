@@ -17,8 +17,8 @@ CREATE TABLE `tasklist`
     `id`             int NOT NULL AUTO_INCREMENT,
     `task_list_name` varchar(45) DEFAULT NULL,
     `user_name`      varchar(45) DEFAULT NULL,
-    `created_at`     datetime    DEFAULT CURRENT_TIMESTAMP,
-    `modified_at`    datetime    DEFAULT CURRENT_TIMESTAMP,
+    `created_at`     datetime    DEFAULT NULL,
+    `modified_at`    datetime    DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -30,8 +30,8 @@ CREATE TABLE `task`
     `user_name`        varchar(45) DEFAULT NULL,
     `task_description` varchar(45) DEFAULT NULL,
     `task_status`      varchar(45) DEFAULT NULL,
-    `created_at`       datetime    DEFAULT CURRENT_TIMESTAMP,
-    `modified_at`      datetime    DEFAULT CURRENT_TIMESTAMP,
+    `created_at`       datetime    DEFAULT NULL,
+    `modified_at`      datetime    DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `FK_DETAIL_idx` (`task_list_id`),
     CONSTRAINT `FK_DETAIL` FOREIGN KEY (`task_list_id`) REFERENCES `tasklist` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -47,8 +47,8 @@ CREATE TABLE `subtask`
     `user_name`           varchar(45) DEFAULT NULL,
     `subtask_description` varchar(45) DEFAULT NULL,
     `subtask_status`      varchar(45) DEFAULT NULL,
-    `created_at`          timestamp   DEFAULT CURRENT_TIMESTAMP,
-    `modified_at`         timestamp   DEFAULT CURRENT_TIMESTAMP,
+    `created_at`          timestamp   DEFAULT NULL,
+    `modified_at`         timestamp   DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `FK_SUBTASK_DETAIL_idx` (`task_id`),
     CONSTRAINT `FK_SUBTASK_DETAIL` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

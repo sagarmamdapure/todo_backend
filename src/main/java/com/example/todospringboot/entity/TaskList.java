@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,27 +18,33 @@ public class TaskList {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "task_list_name")
-  private String taskListName;
+    @Column(name = "task_list_name")
+    private String taskListName;
 
-  @Column(name = "user_name")
-  private String userName;
+    @Column(name = "user_name")
+    private String userName;
 
-  @JsonIgnore
-  @OneToMany(
-          targetEntity = Task.class,
-          cascade = CascadeType.ALL,
-          mappedBy = "taskList",
-          fetch = FetchType.LAZY)
-  private List<Task> tasks;
+    @Column(name = "created_at")
+    private Timestamp createdTimeStamp;
 
-  public TaskList(String taskListNameArg, String userNameArg) {
+    @Column(name = "modified_at")
+    private Timestamp modifiedTimeStamp;
+
+    @JsonIgnore
+    @OneToMany(
+            targetEntity = Task.class,
+            cascade = CascadeType.ALL,
+            mappedBy = "taskList",
+            fetch = FetchType.LAZY)
+    private List<Task> tasks;
+
+    public TaskList(String taskListNameArg, String userNameArg) {
     taskListName = taskListNameArg;
     userName = userNameArg;
   }
 
-  public TaskList() {
-  }
+    public TaskList() {
+    }
 
   public int getId() {
     return id;
@@ -75,25 +82,41 @@ public class TaskList {
     this.taskListName = taskListName;
   }
 
-  public String getUserName() {
-    return userName;
-  }
+    public String getUserName() {
+        return userName;
+    }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-  @Override
-  public String toString() {
-    return "TaskList{"
-            + "id="
-            + id
-            + ", taskListName='"
-            + taskListName
-            + '\''
-            + ", userName='"
-            + userName
-            + '\''
-            + '}';
+    public Timestamp getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public Timestamp getModifiedTimeStamp() {
+        return modifiedTimeStamp;
+    }
+
+    public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+        this.modifiedTimeStamp = modifiedTimeStamp;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskList{"
+                + "id="
+                + id
+                + ", taskListName='"
+                + taskListName
+                + '\''
+                + ", userName='"
+                + userName
+                + '\''
+                + '}';
   }
 }

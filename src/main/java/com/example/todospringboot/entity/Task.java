@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,24 +29,30 @@ public class Task {
   @Column(name = "task_description")
   private String taskDescription;
 
-  @Column(name = "task_status")
-  private String taskStatus;
+    @Column(name = "task_status")
+    private String taskStatus;
 
-  @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "task_list_id", updatable = false)
-  @Fetch(FetchMode.JOIN)
-  private TaskList taskList;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_list_id", updatable = false)
+    @Fetch(FetchMode.JOIN)
+    private TaskList taskList;
 
-  @JsonIgnore
-  @OneToMany(
-          targetEntity = SubTask.class,
-          mappedBy = "task",
-          cascade = CascadeType.ALL,
-          fetch = FetchType.LAZY)
-  private List<SubTask> subTasks;
+    @Column(name = "created_at")
+    private Timestamp createdTimeStamp;
 
-  public Task() {
+    @Column(name = "modified_at")
+    private Timestamp modifiedTimeStamp;
+
+    @JsonIgnore
+    @OneToMany(
+            targetEntity = SubTask.class,
+            mappedBy = "task",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<SubTask> subTasks;
+
+    public Task() {
   }
 
   public Task(String taskName, String userName, String taskDescription, String taskStatus) {
@@ -111,23 +118,39 @@ public class Task {
     this.taskDescription = taskDescription;
   }
 
-  public String getTaskStatus() {
-    return taskStatus;
-  }
+    public String getTaskStatus() {
+        return taskStatus;
+    }
 
-  public void setTaskStatus(String taskStatus) {
-    this.taskStatus = taskStatus;
-  }
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
 
-  @Override
-  public String toString() {
-    return "Task{"
-            + "id="
-            + id
-            + ", taskName='"
-            + taskName
-            + '\''
-            + ", userName='"
+    public Timestamp getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public Timestamp getModifiedTimeStamp() {
+        return modifiedTimeStamp;
+    }
+
+    public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+        this.modifiedTimeStamp = modifiedTimeStamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{"
+                + "id="
+                + id
+                + ", taskName='"
+                + taskName
+                + '\''
+                + ", userName='"
             + userName
             + '\''
             + ", taskDescription='"

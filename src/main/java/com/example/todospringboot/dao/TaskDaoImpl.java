@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -71,6 +72,7 @@ public class TaskDaoImpl implements TaskDao {
       if (task.getUserName() != null) {
         taskOrig.setUserName(task.getUserName());
       }
+      taskOrig.setModifiedTimeStamp(new Timestamp(System.currentTimeMillis()));
       session.update(taskOrig);
     }
     // TODO: Add custom exception when user tries to delete other users data
@@ -80,6 +82,7 @@ public class TaskDaoImpl implements TaskDao {
   public void addTask(int taskListId, Task task) {
     Session session = this.sessionFactory.getCurrentSession();
     TaskList taskList = this.taskListDao.getTaskList(taskListId);
+    task.setCreatedTimeStamp(new Timestamp(System.currentTimeMillis()));
     task.setTaskList(taskList);
     session.save(task);
   }

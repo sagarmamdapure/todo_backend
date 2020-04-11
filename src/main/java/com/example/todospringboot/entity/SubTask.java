@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "subtask")
@@ -26,27 +27,34 @@ public class SubTask {
   @Column(name = "subtask_description")
   private String subTaskDescription;
 
-  @Column(name = "subtask_status")
-  private String subTaskStatus;
+    @Column(name = "subtask_status")
+    private String subTaskStatus;
 
-  @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "task_id", updatable = false)
-  @Fetch(FetchMode.JOIN)
-  private Task task;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", updatable = false)
+    @Fetch(FetchMode.JOIN)
+    private Task task;
 
-  public SubTask() {
-  }
+    @Column(name = "created_at")
+    private Timestamp createdTimeStamp;
 
-  public SubTask(
-          String subTaskName, String userName, String subTaskDescription, String subTaskStatus) {
-    this.subTaskName = subTaskName;
-    this.userName = userName;
-    this.subTaskDescription = subTaskDescription;
-    this.subTaskStatus = subTaskStatus;
-  }
+    @Column(name = "modified_at")
+    private Timestamp modifiedTimeStamp;
 
-  public int getId() {
+
+    public SubTask() {
+    }
+
+    public SubTask(
+            String subTaskName, String userName, String subTaskDescription, String subTaskStatus) {
+        this.subTaskName = subTaskName;
+        this.userName = userName;
+        this.subTaskDescription = subTaskDescription;
+        this.subTaskStatus = subTaskStatus;
+    }
+
+    public int getId() {
     return id;
   }
 
@@ -90,31 +98,47 @@ public class SubTask {
     return task;
   }
 
-  public void setTask(Task task) {
-    this.task = task;
-  }
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
-  public static SubTask getDefaultInstance() {
-    return new SubTask();
-  }
+    public static SubTask getDefaultInstance() {
+        return new SubTask();
+    }
 
-  @Override
-  public String toString() {
-    return "SubTask{"
-            + "id="
-            + id
-            + ", subTaskName='"
-            + subTaskName
-            + '\''
-            + ", userName='"
-            + userName
-            + '\''
-            + ", subTaskDescription='"
-            + subTaskDescription
-            + '\''
-            + ", subTaskStatus='"
-            + subTaskStatus
-            + '\''
-            + '}';
+    public Timestamp getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public Timestamp getModifiedTimeStamp() {
+        return modifiedTimeStamp;
+    }
+
+    public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+        this.modifiedTimeStamp = modifiedTimeStamp;
+    }
+
+    @Override
+    public String toString() {
+        return "SubTask{"
+                + "id="
+                + id
+                + ", subTaskName='"
+                + subTaskName
+                + '\''
+                + ", userName='"
+                + userName
+                + '\''
+                + ", subTaskDescription='"
+                + subTaskDescription
+                + '\''
+                + ", subTaskStatus='"
+                + subTaskStatus
+                + '\''
+                + '}';
   }
 }

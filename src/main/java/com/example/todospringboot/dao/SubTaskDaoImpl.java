@@ -8,6 +8,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -47,11 +48,12 @@ public class SubTaskDaoImpl implements SubTaskDao {
     }
 
     @Override
-  public void addSubTask(int taskId, SubTask subTask) {
-    Session session = this.sessionFactory.getCurrentSession();
-    Task task = this.taskDao.getTask(taskId);
-    subTask.setTask(task);
-    session.save(subTask);
+    public void addSubTask(int taskId, SubTask subTask) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Task task = this.taskDao.getTask(taskId);
+        task.setCreatedTimeStamp(new Timestamp(System.currentTimeMillis()));
+        subTask.setTask(task);
+        session.save(subTask);
     }
 
     @Override
@@ -79,6 +81,7 @@ public class SubTaskDaoImpl implements SubTaskDao {
             if (subTask.getUserName() != null) {
                 subTaskOrig.setUserName(subTask.getUserName());
             }
+            subTaskOrig.setModifiedTimeStamp(new Timestamp(System.currentTimeMillis()));
             session.update(subTaskOrig);
         }
         // TODO: Add custom exception when user tries to delete other users data
