@@ -20,20 +20,20 @@ public class TaskListServiceImpl implements TaskListService {
 
   @Override
   @Transactional
-  public void deleteTaskList(int taskListId) {
-    taskListDao.deleteTaskList(taskListId);
+  public void deleteTaskList(int taskListId, String userName) {
+    taskListDao.deleteTaskList(taskListId, userName);
   }
 
   @Override
   @Transactional
-  public TaskList getTaskList(int taskListId) {
-    return taskListDao.getTaskList(taskListId);
+  public TaskList getTaskList(int taskListId, String userName) {
+    return taskListDao.getTaskList(taskListId, userName);
   }
 
   @Override
   @Transactional
-  public void updateTaskList(int taskListId, TaskList taskList) {
-    taskListDao.updateTaskList(taskListId, taskList);
+  public void updateTaskList(int taskListId, TaskList taskList, String userName) {
+    taskListDao.updateTaskList(taskListId, taskList, userName);
   }
 
   @Override

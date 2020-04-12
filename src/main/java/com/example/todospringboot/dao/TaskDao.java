@@ -9,11 +9,11 @@ public interface TaskDao {
 
   List<Task> getAllTask(String userName);
 
-  void deleteTask(int taskId);
+  void deleteTask(int taskId, String userName);
 
-  Task getTask(int taskId);
+  Task getTask(int taskId, String userName);
 
-  void updateTask(int taskId, Task task);
+  void updateTask(int taskId, Task task, String userName);
 
   void addTask(int taskListId, Task task);
 

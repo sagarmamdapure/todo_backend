@@ -30,7 +30,7 @@ public class SubTaskServiceTest {
   public void setUp() {
     List<SubTask> testData = getTestData();
     when(subTaskDao.getAllSubTask(anyString(), anyInt())).thenReturn(testData);
-    when(subTaskDao.getSubTask(anyInt())).thenReturn(testData.get(0));
+    when(subTaskDao.getSubTask(anyInt(), anyString())).thenReturn(testData.get(0));
   }
 
   private List<SubTask> getTestData() {
@@ -76,7 +76,7 @@ public class SubTaskServiceTest {
   public void testGetSubTask() {
     SubTask expected_data = getTestData().get(0);
 
-    SubTask actual_data = subTaskService.getSubTask(1);
+    SubTask actual_data = subTaskService.getSubTask(1, "test_user");
     assertEquals(expected_data.getId(), actual_data.getId());
     assertEquals(expected_data.getTask(), actual_data.getTask());
     assertEquals(expected_data.getSubTaskStatus(), actual_data.getSubTaskStatus());
@@ -87,7 +87,7 @@ public class SubTaskServiceTest {
 
   @Test
   public void testDeleteSubTask() {
-    subTaskService.deleteSubTask(1);
+    subTaskService.deleteSubTask(1, "test_user");
   }
 
   @Test
@@ -97,6 +97,6 @@ public class SubTaskServiceTest {
 
   @Test
   public void testUpdateSubTask() {
-    subTaskService.updateSubTask(1, SubTask.getDefaultInstance());
+    subTaskService.updateSubTask(1, SubTask.getDefaultInstance(), "test_user");
   }
 }

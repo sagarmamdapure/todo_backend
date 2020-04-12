@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,7 +29,7 @@ public class TaskListServiceTest {
   public void setUp() {
     ArrayList<TaskList> testData = getTestData();
     when(taskListDao.getAllTaskList(any())).thenReturn(testData);
-    when(taskListDao.getTaskList(anyInt())).thenReturn(testData.get(0));
+    when(taskListDao.getTaskList(anyInt(), anyString())).thenReturn(testData.get(0));
   }
 
   @Test
@@ -41,16 +40,16 @@ public class TaskListServiceTest {
 
   @Test
   public void testDeleteTaskList() {
-    taskListService.deleteTaskList(1);
+    taskListService.deleteTaskList(1, "test_user");
   }
 
   @Test
   public void testGetTaskList() {
     ArrayList<TaskList> expectedData = getTestData();
     assertEquals(
-            expectedData.get(0).getTaskListName(), taskListService.getTaskList(0).getTaskListName());
-    assertEquals(expectedData.get(0).getUserName(), taskListService.getTaskList(0).getUserName());
-    assertEquals(expectedData.get(0).getId(), taskListService.getTaskList(0).getId());
+            expectedData.get(0).getTaskListName(), taskListService.getTaskList(0, "test_user").getTaskListName());
+    assertEquals(expectedData.get(0).getUserName(), taskListService.getTaskList(0, "test_user").getUserName());
+    assertEquals(expectedData.get(0).getId(), taskListService.getTaskList(0, "test_user").getId());
   }
 
   @Test
@@ -62,7 +61,7 @@ public class TaskListServiceTest {
   @Test
   public void testUpdateTaskList() {
     TaskList taskList = new TaskList("test_name", "test_user");
-    taskListService.updateTaskList(1, taskList);
+    taskListService.updateTaskList(1, taskList, "test_user");
   }
 
   private ArrayList<TaskList> getTestData() {

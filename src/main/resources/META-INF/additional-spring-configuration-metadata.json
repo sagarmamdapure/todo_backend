@@ -59,6 +59,11 @@
       "name": "aws.region",
       "type": "java.lang.String",
       "description": "Description for aws.region."
+    },
+    {
+      "name": "hibernate.jdbc.time_zone",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.jdbc.time_zone."
     }
   ]
 }

@@ -2,14 +2,17 @@ package com.example.todospringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tasklist")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskList {
 
   @Id
@@ -17,11 +20,20 @@ public class TaskList {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "task_list_name")
-  private String taskListName;
+    @Column(name = "task_list_name")
+    private String taskListName;
 
   @Column(name = "user_name")
   private String userName;
+
+  @Column(name = "created_at")
+  private Timestamp createdTimeStamp;
+
+  @Column(name = "modified_at")
+  private Timestamp modifiedTimeStamp;
+
+  @Column(name = "due_date")
+  private Timestamp dueDate;
 
   @JsonIgnore
   @OneToMany(
@@ -36,8 +48,8 @@ public class TaskList {
     userName = userNameArg;
   }
 
-  public TaskList() {
-  }
+    public TaskList() {
+    }
 
   public int getId() {
     return id;
@@ -75,12 +87,36 @@ public class TaskList {
     this.taskListName = taskListName;
   }
 
-  public String getUserName() {
-    return userName;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Timestamp getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+  public Timestamp getModifiedTimeStamp() {
+    return modifiedTimeStamp;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+    this.modifiedTimeStamp = modifiedTimeStamp;
+  }
+
+  public Timestamp getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(Timestamp dueDate) {
+    this.dueDate = dueDate;
   }
 
   @Override
@@ -94,6 +130,6 @@ public class TaskList {
             + ", userName='"
             + userName
             + '\''
-            + '}';
+                + '}';
   }
 }

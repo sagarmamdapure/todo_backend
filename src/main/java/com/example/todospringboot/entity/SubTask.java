@@ -2,14 +2,17 @@ package com.example.todospringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "subtask")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubTask {
 
   @Id
@@ -29,6 +32,15 @@ public class SubTask {
   @Column(name = "subtask_status")
   private String subTaskStatus;
 
+  @Column(name = "created_at")
+  private Timestamp createdTimeStamp;
+
+  @Column(name = "modified_at")
+  private Timestamp modifiedTimeStamp;
+
+  @Column(name = "due_date")
+  private Timestamp dueDate;
+
   @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "task_id", updatable = false)
@@ -46,12 +58,8 @@ public class SubTask {
     this.subTaskStatus = subTaskStatus;
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
+  public static SubTask getDefaultInstance() {
+    return new SubTask();
   }
 
   public String getSubTaskName() {
@@ -94,8 +102,36 @@ public class SubTask {
     this.task = task;
   }
 
-  public static SubTask getDefaultInstance() {
-    return new SubTask();
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public Timestamp getCreatedTimeStamp() {
+    return createdTimeStamp;
+  }
+
+  public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+    this.createdTimeStamp = createdTimeStamp;
+  }
+
+  public Timestamp getModifiedTimeStamp() {
+    return modifiedTimeStamp;
+  }
+
+  public void setModifiedTimeStamp(Timestamp modifiedTimeStamp) {
+    this.modifiedTimeStamp = modifiedTimeStamp;
+  }
+
+  public Timestamp getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(Timestamp dueDate) {
+    this.dueDate = dueDate;
   }
 
   @Override
