@@ -21,8 +21,8 @@ public class SubTaskServiceImpl implements SubTaskService {
 
   @Override
   @Transactional
-  public SubTask getSubTask(int subTaskId) throws EntityNotFoundException {
-    return subTaskDao.getSubTask(subTaskId);
+  public SubTask getSubTask(int subTaskId, String userName) throws EntityNotFoundException {
+    return subTaskDao.getSubTask(subTaskId, userName);
   }
 
   @Override

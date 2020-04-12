@@ -2,6 +2,7 @@ package com.example.todospringboot.dao;
 
 import com.example.todospringboot.entity.SubTask;
 import com.example.todospringboot.entity.Task;
+import com.example.todospringboot.exceptions.UnauthorizedException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -27,63 +28,68 @@ public class SubTaskDaoImpl implements SubTaskDao {
   @SuppressWarnings("JpaQlInspection")
   @Override
   public List<SubTask> getAllSubTask(String userName, int taskId) {
-      Session session = this.sessionFactory.getCurrentSession();
-      Query<SubTask> query =
-              session.createQuery(
-                      "from SubTask where task_id=:taskId and userName=:userName", SubTask.class);
-      query.setParameter("taskId", taskId);
-      query.setParameter("userName", userName);
-      return query.getResultList();
+    Session session = this.sessionFactory.getCurrentSession();
+    Query<SubTask> query =
+            session.createQuery(
+                    "from SubTask where task_id=:taskId and userName=:userName", SubTask.class);
+    query.setParameter("taskId", taskId);
+    query.setParameter("userName", userName);
+    return query.getResultList();
   }
 
-    @Override
-    public void deleteSubTask(int subTaskId, String userName) {
+  @Override
+  public void deleteSubTask(int subTaskId, String userName) {
 
-        SubTask subTask = this.getSubTask(subTaskId);
-        if (subTask.getUserName().equals(userName)) {
-            Session session = this.sessionFactory.getCurrentSession();
-            session.delete(subTask);
-        }
-        // TODO: Add custom exception when user tries to delete other users data
-    }
+    SubTask subTask = this.getSubTask(subTaskId, userName);
+    if (subTask.getUserName().equals(userName)) {
+      Session session = this.sessionFactory.getCurrentSession();
+      session.delete(subTask);
+    } else
+      throw new UnauthorizedException(
+              String.format("This subtask doesn't belong to %s user", userName));
+  }
 
-    @Override
-    public void addSubTask(int taskId, SubTask subTask) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Task task = this.taskDao.getTask(taskId);
-        task.setCreatedTimeStamp(new Timestamp(System.currentTimeMillis()));
-        subTask.setTask(task);
-        session.save(subTask);
-    }
+  @Override
+  public void addSubTask(int taskId, SubTask subTask) {
+    Session session = this.sessionFactory.getCurrentSession();
+    Task task = this.taskDao.getTask(taskId, subTask.getUserName());
+    task.setCreatedTimeStamp(new Timestamp(System.currentTimeMillis()));
+    subTask.setTask(task);
+    session.save(subTask);
+  }
 
-    @Override
-    public SubTask getSubTask(int subTaskId) throws EntityNotFoundException {
-        Session session = this.sessionFactory.getCurrentSession();
-        Query<SubTask> query = session.createQuery("from SubTask where id=:subTaskId", SubTask.class);
-        query.setParameter("subTaskId", subTaskId);
-        return query.getSingleResult();
-    }
+  @Override
+  public SubTask getSubTask(int subTaskId, String userName) throws EntityNotFoundException {
+    Session session = this.sessionFactory.getCurrentSession();
+    Query<SubTask> query =
+            session.createQuery(
+                    "from SubTask where id=:subTaskId and userName=:userName", SubTask.class);
+    query.setParameter("subTaskId", subTaskId);
+    query.setParameter("userName", userName);
+    return query.getSingleResult();
+  }
 
-    @Override
-    public void updateSubTask(int subTaskId, SubTask subTask, String userName) {
-        Session session = this.sessionFactory.getCurrentSession();
-        SubTask subTaskOrig = this.getSubTask(subTaskId);
-        if (subTaskOrig.getUserName().equals(userName)) {
-            if (subTask.getTask() != null) {
-                subTaskOrig.setTask(subTask.getTask());
-            }
-            if (subTask.getSubTaskDescription() != null) {
-                subTaskOrig.setSubTaskDescription(subTask.getSubTaskDescription());
-            }
-            if (subTask.getSubTaskStatus() != null) {
-                subTaskOrig.setSubTaskStatus(subTask.getSubTaskStatus());
-            }
-            if (subTask.getUserName() != null) {
-                subTaskOrig.setUserName(subTask.getUserName());
-            }
-            subTaskOrig.setModifiedTimeStamp(new Timestamp(System.currentTimeMillis()));
-            session.update(subTaskOrig);
-        }
-        // TODO: Add custom exception when user tries to delete other users data
-    }
+  @Override
+  public void updateSubTask(int subTaskId, SubTask subTask, String userName) {
+    Session session = this.sessionFactory.getCurrentSession();
+    SubTask subTaskOrig = this.getSubTask(subTaskId, userName);
+    if (subTaskOrig.getUserName().equals(userName)) {
+      if (subTask.getTask() != null) {
+        subTaskOrig.setTask(subTask.getTask());
+      }
+      if (subTask.getSubTaskDescription() != null) {
+        subTaskOrig.setSubTaskDescription(subTask.getSubTaskDescription());
+      }
+      if (subTask.getSubTaskStatus() != null) {
+        subTaskOrig.setSubTaskStatus(subTask.getSubTaskStatus());
+      }
+      if (subTask.getUserName() != null) {
+        subTaskOrig.setUserName(subTask.getUserName());
+      }
+      subTaskOrig.setModifiedTimeStamp(new Timestamp(System.currentTimeMillis()));
+      session.update(subTaskOrig);
+    } else
+      throw new UnauthorizedException(
+              String.format("This subtask doesn't belong to %s user", userName));
+  }
 }

@@ -26,8 +26,8 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   @Transactional
-  public Task getTask(int taskId) {
-    return taskDao.getTask(taskId);
+  public Task getTask(int taskId, String userName) {
+    return taskDao.getTask(taskId, userName);
   }
 
   @Override

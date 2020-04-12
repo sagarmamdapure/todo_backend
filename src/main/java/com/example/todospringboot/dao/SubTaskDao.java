@@ -12,7 +12,7 @@ public interface SubTaskDao {
 
   void addSubTask(int taskId, SubTask subTask);
 
-  SubTask getSubTask(int subTaskId);
+  SubTask getSubTask(int subTaskId, String userName);
 
   void updateSubTask(int subTaskId, SubTask subTask, String userName);
 }

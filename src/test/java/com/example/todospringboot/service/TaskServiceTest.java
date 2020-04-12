@@ -30,7 +30,7 @@ public class TaskServiceTest {
     public void setUp() {
         List<Task> testData = getTestData();
         when(taskDao.getAllTask(anyString())).thenReturn(testData);
-        when(taskDao.getTask(anyInt())).thenReturn(testData.get(0));
+        when(taskDao.getTask(anyInt(), anyString())).thenReturn(testData.get(0));
         when(taskDao.getAllTaskFromTaskList(anyString(), anyInt())).thenReturn(testData);
     }
 
@@ -62,7 +62,7 @@ public class TaskServiceTest {
     @Test
     public void testGetTask() {
         List<Task> expectedData = getTestData();
-        Task task = taskService.getTask(1);
+        Task task = taskService.getTask(1, "user_name");
         assertEquals(expectedData.get(0).getId(), task.getId());
         assertEquals(expectedData.get(0).getUserName(), task.getUserName());
         assertEquals(expectedData.get(0).getTaskStatus(), task.getTaskStatus());

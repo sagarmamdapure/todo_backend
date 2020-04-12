@@ -10,7 +10,7 @@ public interface TaskListDao {
 
   void deleteTaskList(int taskListId, String userName);
 
-  TaskList getTaskList(int taskListId);
+  TaskList getTaskList(int taskListId, String userName);
 
   void updateTaskList(int taskListId, TaskList taskList, String userName);
 

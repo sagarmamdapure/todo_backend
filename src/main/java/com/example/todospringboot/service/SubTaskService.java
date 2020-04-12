@@ -10,7 +10,7 @@ public interface SubTaskService {
 
   List<SubTask> getAllSubTask(String userName, int taskId);
 
-  SubTask getSubTask(int subTaskId) throws EntityNotFoundException;
+  SubTask getSubTask(int subTaskId, String userName) throws EntityNotFoundException;
 
   void deleteSubTask(int subTaskId, String userName);
 
