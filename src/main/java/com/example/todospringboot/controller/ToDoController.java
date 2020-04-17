@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/todo/")
+@RequestMapping("/api")
 public class ToDoController {
 
   final SubTaskService subTaskService;
@@ -40,15 +41,16 @@ public class ToDoController {
     this.taskService = taskService;
   }
 
-  @PostMapping("/addTaskList")
+  @PostMapping("/tasklists")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public void addTaskList(@RequestBody TaskList taskList, Authentication authentication) {
+  public void addTaskList(
+          @Validated @RequestBody TaskList taskList, Authentication authentication) {
     taskList.setUserName(authentication.getName());
     taskListService.addTaskList(taskList);
   }
 
-  @GetMapping("/getTaskList/{id}")
+  @GetMapping("/tasklists/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public ResponseEntity<TaskList> getTaskList(
@@ -62,7 +64,7 @@ public class ToDoController {
     }
   }
 
-  @DeleteMapping("/deleteTaskList/{id}")
+  @DeleteMapping("/tasklists/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public ResponseEntity<?> deleteTaskList(
           @PathVariable("id") int taskListId, Authentication authentication) {
@@ -75,7 +77,7 @@ public class ToDoController {
     }
   }
 
-  @GetMapping("/getAllTaskList")
+  @GetMapping("/tasklists")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public ResponseEntity<List<TaskList>> getAllTaskList(Authentication authentication) {
@@ -83,7 +85,7 @@ public class ToDoController {
             taskListService.getAllTaskList(authentication.getName()), HttpStatus.OK);
   }
 
-  @PutMapping(value = "/updateTaskList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/tasklists/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public void updateTaskList(
           @PathVariable("id") int taskListId,
@@ -99,7 +101,7 @@ public class ToDoController {
 
   // =========================================================================================
 
-  @PostMapping("/addTask/{id}")
+  @PostMapping("/tasks/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public void addTask(
@@ -113,7 +115,7 @@ public class ToDoController {
     }
   }
 
-  @GetMapping("/getTask/{id}")
+  @GetMapping("/tasks/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public ResponseEntity<Task> getTask(
@@ -127,23 +129,21 @@ public class ToDoController {
     }
   }
 
-  @GetMapping("/getAllTask")
+  @GetMapping("/tasks")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
-  public ResponseEntity<List<Task>> getAllTask(Authentication authentication) {
-    return new ResponseEntity<>(taskService.getAllTask(authentication.getName()), HttpStatus.OK);
+  public ResponseEntity<List<Task>> getAllTask(
+          @RequestParam(value = "tasklistid", required = false) Integer taskListId,
+          Authentication authentication) {
+    logger.info("hello" + taskListId);
+    if (taskListId != null) {
+      return new ResponseEntity<>(
+              taskService.getAllTaskFromTaskList(authentication.getName(), taskListId), HttpStatus.OK);
+    } else
+      return new ResponseEntity<>(taskService.getAllTask(authentication.getName()), HttpStatus.OK);
   }
 
-  @GetMapping("/getAllTask/{id}")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-  @ResponseBody
-  public ResponseEntity<List<Task>> getAllTaskFromTaskList(
-          @PathVariable("id") int taskListId, Authentication authentication) {
-    return new ResponseEntity<>(
-            taskService.getAllTaskFromTaskList(authentication.getName(), taskListId), HttpStatus.OK);
-  }
-
-  @DeleteMapping("/deleteTask/{id}")
+  @DeleteMapping("/tasks/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public ResponseEntity<?> deleteTask(
           @PathVariable("id") int taskId, Authentication authentication) {
@@ -156,10 +156,12 @@ public class ToDoController {
     }
   }
 
-  @PutMapping(value = "/updateTask/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/tasks/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public void updateTask(
           @PathVariable("id") int taskId, @RequestBody Task task, Authentication authentication) {
+
+    // TODO : Check if the task object has any value in it.
     try {
       taskService.updateTask(taskId, task, authentication.getName());
     } catch (EmptyResultDataAccessException e) {
@@ -169,11 +171,13 @@ public class ToDoController {
   }
   // =========================================================================================
 
-  @PostMapping("/addSubTask/{id}")
+  @PostMapping("/subtasks/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public void addSubTask(
-          @PathVariable("id") int taskId, @RequestBody SubTask subTask, Authentication authentication) {
+          @PathVariable("id") int taskId,
+          @Validated @RequestBody SubTask subTask,
+          Authentication authentication) {
     try {
       subTask.setUserName(authentication.getName());
       subTaskService.addSubTask(taskId, subTask);
@@ -183,16 +187,16 @@ public class ToDoController {
     }
   }
 
-  @GetMapping("/getAllSubTask/{id}")
+  @GetMapping("/subtasks")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public ResponseEntity<List<SubTask>> getAllSubTask(
-          Authentication authentication, @PathVariable("id") int taskId) {
+          @RequestParam(name = "taskid") Integer taskId, Authentication authentication) {
     return new ResponseEntity<>(
             subTaskService.getAllSubTask(authentication.getName(), taskId), HttpStatus.OK);
   }
 
-  @GetMapping("/getSubTask/{id}")
+  @GetMapping("/subtasks/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   @ResponseBody
   public ResponseEntity<SubTask> getSubTask(
@@ -206,7 +210,7 @@ public class ToDoController {
     }
   }
 
-  @DeleteMapping("/deleteSubTask/{id}")
+  @DeleteMapping("/subtasks/{id}")
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public ResponseEntity<?> deleteSubTask(
           @PathVariable("id") int subTaskId, Authentication authentication) {
@@ -219,12 +223,14 @@ public class ToDoController {
     }
   }
 
-  @PutMapping(value = "/updateSubTask/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/subtasks/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
   public void updateSubTask(
           @PathVariable("id") int subTaskId,
           @RequestBody SubTask subTask,
           Authentication authentication) {
+
+    // TODO : Check if the subTask object has any value in it.
     try {
       subTaskService.updateSubTask(subTaskId, subTask, authentication.getName());
     } catch (EmptyResultDataAccessException e) {
