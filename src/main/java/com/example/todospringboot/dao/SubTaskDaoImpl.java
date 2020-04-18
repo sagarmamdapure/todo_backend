@@ -86,6 +86,9 @@ public class SubTaskDaoImpl implements SubTaskDao {
       if (subTask.getUserName() != null) {
         subTaskOrig.setUserName(subTask.getUserName());
       }
+      if (subTask.getSubTaskName() != null) {
+        subTaskOrig.setSubTaskName(subTask.getSubTaskName());
+      }
       subTaskOrig.setModifiedTimeStamp(new Timestamp(System.currentTimeMillis()));
       session.update(subTaskOrig);
     } else

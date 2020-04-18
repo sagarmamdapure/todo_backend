@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,10 @@ public class TaskList {
   @Column(name = "id")
   private int id;
 
-    @Column(name = "task_list_name")
-    private String taskListName;
+  @Column(name = "task_list_name")
+  @NotEmpty(message = "Please provide tasklist name")
+  private String taskListName;
+
 
   @Column(name = "user_name")
   private String userName;
@@ -48,8 +51,12 @@ public class TaskList {
     userName = userNameArg;
   }
 
-    public TaskList() {
-    }
+  public TaskList() {
+  }
+
+  public static TaskList getDefaultInstance() {
+    return new TaskList();
+  }
 
   public int getId() {
     return id;
@@ -65,10 +72,6 @@ public class TaskList {
 
   public void setTasks(List<Task> tasks) {
     this.tasks = tasks;
-  }
-
-  public static TaskList getDefaultInstance() {
-    return new TaskList();
   }
 
   public void add(Task task) {
@@ -87,21 +90,21 @@ public class TaskList {
     this.taskListName = taskListName;
   }
 
-    public String getUserName() {
-        return userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public Timestamp getCreatedTimeStamp() {
-        return createdTimeStamp;
-    }
+  public Timestamp getCreatedTimeStamp() {
+    return createdTimeStamp;
+  }
 
-    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
-    }
+  public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+    this.createdTimeStamp = createdTimeStamp;
+  }
 
   public Timestamp getModifiedTimeStamp() {
     return modifiedTimeStamp;
@@ -130,6 +133,6 @@ public class TaskList {
             + ", userName='"
             + userName
             + '\''
-                + '}';
+            + '}';
   }
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +24,18 @@ public class Task {
   private int id;
 
   @Column(name = "task_name")
+  @NotEmpty(message = "Please provide task name")
   private String taskName;
 
   @Column(name = "user_name")
   private String userName;
 
   @Column(name = "task_description")
+  @NotEmpty(message = "Please provide task description")
   private String taskDescription;
 
   @Column(name = "task_status")
+  @NotEmpty(message = "Please provide task status")
   private String taskStatus;
 
   @Column(name = "created_at")

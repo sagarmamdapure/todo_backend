@@ -7,6 +7,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 
 @Entity
@@ -21,15 +22,18 @@ public class SubTask {
   private int id;
 
   @Column(name = "subtask_name")
+  @NotEmpty(message = "Please provide subtask name")
   private String subTaskName;
 
   @Column(name = "user_name")
   private String userName;
 
   @Column(name = "subtask_description")
+  @NotEmpty(message = "Please provide subtask description")
   private String subTaskDescription;
 
   @Column(name = "subtask_status")
+  @NotEmpty(message = "Please provide subtask status")
   private String subTaskStatus;
 
   @Column(name = "created_at")
