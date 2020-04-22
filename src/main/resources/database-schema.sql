@@ -77,7 +77,8 @@ CREATE TABLE `users`
     `password`      varchar(120) NOT NULL,
     `firstname`     varchar(50),
     `lastname`      varchar(50),
-    'otp'           varchar(6),
+    `contact`       varchar(40),
+    `otp`           varchar(6),
     `otp_issued_at` datetime DEFAULT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT UNIQUE_USERS UNIQUE (`username`, `password`)
