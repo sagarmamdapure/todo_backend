@@ -12,4 +12,6 @@ public interface UserRepositoryDao {
     Boolean existsByEmail(String email);
 
     void save(User user);
+
+    void update(User user);
 }

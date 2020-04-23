@@ -49,4 +49,10 @@ public class UserRepositoryDaoImpl implements UserRepositoryDao {
         Session session = this.sessionFactory.getCurrentSession();
         session.save(user);
     }
+
+    @Override
+    public void update(User user) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.update(user);
+    }
 }
