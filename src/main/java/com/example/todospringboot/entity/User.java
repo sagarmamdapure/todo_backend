@@ -38,6 +38,12 @@ public class User {
   @Size(max = 120)
   private String password;
 
+  @Size(max = 6)
+  private String otp;
+
+  @Size(max = 40)
+  private String contact;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
           name = "user_roles",
@@ -48,12 +54,23 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password, String firstName, String lastName) {
+  public User(
+          String username,
+          String email,
+          String password,
+          String firstName,
+          String lastName,
+          String contact) {
     this.username = username;
     this.email = email;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.contact = contact;
+  }
+
+  public static User getDefaultInstance() {
+    return new User();
   }
 
   public String getFirstName() {
@@ -100,10 +117,6 @@ public class User {
     return password;
   }
 
-  public static User getDefaultInstance() {
-    return new User();
-  }
-
   public void setPassword(String password) {
     this.password = password;
   }
@@ -114,5 +127,21 @@ public class User {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public String getOtp() {
+    return otp;
+  }
+
+  public void setOtp(String otp) {
+    this.otp = otp;
+  }
+
+  public String getContact() {
+    return contact;
+  }
+
+  public void setContact(String contact) {
+    this.contact = contact;
   }
 }

@@ -71,12 +71,15 @@ CREATE TABLE `roles`
 
 CREATE TABLE `users`
 (
-    `id`        int          NOT NULL AUTO_INCREMENT,
-    `email`     varchar(45)  NOT NULL,
-    `username`  varchar(45)  NOT NULL,
-    `password`  varchar(120) NOT NULL,
-    `firstname` varchar(50),
-    `lastname`  varchar(50),
+    `id`            int          NOT NULL AUTO_INCREMENT,
+    `email`         varchar(45)  NOT NULL,
+    `username`      varchar(45)  NOT NULL,
+    `password`      varchar(120) NOT NULL,
+    `firstname`     varchar(50),
+    `lastname`      varchar(50),
+    `contact`       varchar(40),
+    `otp`           varchar(6),
+    `otp_issued_at` datetime DEFAULT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT UNIQUE_USERS UNIQUE (`username`, `password`)
 ) ENGINE = InnoDB
