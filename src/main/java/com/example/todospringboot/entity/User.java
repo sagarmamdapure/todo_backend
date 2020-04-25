@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,6 +44,9 @@ public class User {
 
   @Size(max = 40)
   private String contact;
+
+  @Column(name = "otp_issued_at")
+  private Timestamp otpIssuedAt;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
@@ -143,5 +147,13 @@ public class User {
 
   public void setContact(String contact) {
     this.contact = contact;
+  }
+
+  public Timestamp getOtpIssuedAt() {
+    return otpIssuedAt;
+  }
+
+  public void setOtpIssuedAt(Timestamp otpIssuedAt) {
+    this.otpIssuedAt = otpIssuedAt;
   }
 }
