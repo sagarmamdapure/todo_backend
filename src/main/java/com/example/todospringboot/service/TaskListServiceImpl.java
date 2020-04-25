@@ -2,15 +2,19 @@ package com.example.todospringboot.service;
 
 import com.example.todospringboot.dao.TaskListDao;
 import com.example.todospringboot.entity.TaskList;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class TaskListServiceImpl implements TaskListService {
 
-  @Autowired
-  private TaskListDao taskListDao;
+  private final TaskListDao taskListDao;
+
+  public TaskListServiceImpl(TaskListDao taskListDao) {
+    this.taskListDao = taskListDao;
+  }
 
   @Override
   @Transactional
