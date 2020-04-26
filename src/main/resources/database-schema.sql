@@ -34,6 +34,7 @@ CREATE TABLE `task`
     `created_at`       datetime    DEFAULT NULL,
     `modified_at`      datetime    DEFAULT NULL,
     `due_date`         timestamp   DEFAULT NULL,
+    `priority`         varchar(45) DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `FK_DETAIL_idx` (`task_list_id`),
     CONSTRAINT `FK_DETAIL` FOREIGN KEY (`task_list_id`) REFERENCES `tasklist` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
