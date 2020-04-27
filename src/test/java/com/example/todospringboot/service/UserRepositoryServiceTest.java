@@ -29,7 +29,7 @@ public class UserRepositoryServiceTest {
         Optional<User> user =
                 Optional.of(
                         new User(
-                                "test_username", "test_email", "test_password", "test_firstName", "test_lastName"));
+                                "test_username", "test_email", "test_password", "test_firstName", "test_lastName", "test_contact"));
         when(userRepositoryDao.findByUsername(anyString())).thenReturn(user);
         when(userRepositoryDao.existsByEmail(anyString())).thenReturn(Boolean.TRUE);
         when(userRepositoryDao.existsByUsername(anyString())).thenReturn(Boolean.TRUE);
@@ -40,9 +40,9 @@ public class UserRepositoryServiceTest {
         Optional<User> expected_data =
                 Optional.of(
                         new User(
-                                "test_username", "test_email", "test_password", "test_firstName", "test_lastName"));
+                                "test_username", "test_email", "test_password", "test_firstName", "test_lastName", "test_contact"));
         Optional<User> actual_data = userRepositoryService.findByUsername("test_user");
-        if (expected_data.isPresent() && actual_data.isPresent()) {
+        if (actual_data.isPresent()) {
             assertEquals(expected_data.get().getId(), actual_data.get().getId());
             assertEquals(expected_data.get().getEmail(), actual_data.get().getEmail());
             assertEquals(expected_data.get().getPassword(), actual_data.get().getPassword());
