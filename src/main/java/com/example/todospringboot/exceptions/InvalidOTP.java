@@ -6,4 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "Invalid OTP")
 public class InvalidOTP extends RuntimeException {
   private static final long serialVersionUID = 100L;
+
+  public InvalidOTP() {
+  }
+
+  public InvalidOTP(String exception) {
+    super(exception);
+  }
 }

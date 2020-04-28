@@ -1,5 +1,6 @@
 package com.example.todospringboot.entity;
 
+import com.example.todospringboot.models.Priority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -46,6 +47,10 @@ public class Task {
 
   @Column(name = "due_date")
   private Timestamp dueDate;
+
+  @Column(name = "priority")
+  @Enumerated(EnumType.ORDINAL)
+  private Priority priority;
 
   @JsonIgnore
   @OneToMany(
@@ -161,6 +166,14 @@ public class Task {
 
   public void setDueDate(Timestamp dueDate) {
     this.dueDate = dueDate;
+  }
+
+  public Priority getPriority() {
+    return priority;
+  }
+
+  public void setPriority(Priority priority) {
+    this.priority = priority;
   }
 
   @Override
