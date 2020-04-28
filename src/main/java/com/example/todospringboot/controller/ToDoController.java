@@ -31,7 +31,7 @@ public class ToDoController {
   final TaskListService taskListService;
   final TaskService taskService;
 
-  private Logger logger = Logger.getLogger(getClass().getName());
+  private final Logger logger = Logger.getLogger(getClass().getName());
 
   @Autowired
   public ToDoController(
