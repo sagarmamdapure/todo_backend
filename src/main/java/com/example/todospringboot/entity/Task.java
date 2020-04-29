@@ -32,7 +32,6 @@ public class Task {
   private String userName;
 
   @Column(name = "task_description")
-  @NotEmpty(message = "Please provide task description")
   private String taskDescription;
 
   @Column(name = "task_status")

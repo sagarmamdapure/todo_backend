@@ -29,7 +29,6 @@ public class SubTask {
   private String userName;
 
   @Column(name = "subtask_description")
-  @NotEmpty(message = "Please provide subtask description")
   private String subTaskDescription;
 
   @Column(name = "subtask_status")
