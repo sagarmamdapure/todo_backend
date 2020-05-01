@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class PersistenceConfig {
   private final Environment env;
 
-  private Logger logger = Logger.getLogger(getClass().getName());
+  private final Logger logger = Logger.getLogger(getClass().getName());
 
   public PersistenceConfig(Environment env) {
     this.env = env;
@@ -98,7 +98,7 @@ public class PersistenceConfig {
   @Bean
   public LocalSessionFactoryBean sessionFactory() {
 
-    // create session factorys
+    // create session factory
     LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 
     // set the properties

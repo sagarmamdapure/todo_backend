@@ -2,16 +2,20 @@ package com.example.todospringboot.service;
 
 import com.example.todospringboot.dao.SubTaskDao;
 import com.example.todospringboot.entity.SubTask;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Service
 public class SubTaskServiceImpl implements SubTaskService {
 
-  @Autowired
-  private SubTaskDao subTaskDao;
+  private final SubTaskDao subTaskDao;
+
+  public SubTaskServiceImpl(SubTaskDao subTaskDao) {
+    this.subTaskDao = subTaskDao;
+  }
 
   @Override
   @Transactional
