@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class PersistenceConfig {
   private final Environment env;
 
-  private Logger logger = Logger.getLogger(getClass().getName());
+  private final Logger logger = Logger.getLogger(getClass().getName());
 
   public PersistenceConfig(Environment env) {
     this.env = env;
